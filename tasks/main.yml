@@ -10,6 +10,7 @@
   loop_control:
     label: "{{ item.vg }}"
   become: True
+  when: lvm_vgs
 
 #Create logical volume(s)
 - name: "Ensure Logical Volume exists"
@@ -22,6 +23,7 @@
   loop_control:
     label: "{{ item.lv }}"
   become: True
+  when: lvm_lvs
 
 #Create filesystems
 - name: "Ensure filesystem exists on Logical Volume"
@@ -32,6 +34,7 @@
   loop_control:
     label: "{{ item.lv }}"
   become: True
+  when: lvm_lvs
 
 #Mount new volumes and ensure they are in /etc/fstab
 - name: "Ensure Logical Volume is mounted"
@@ -47,6 +50,7 @@
   loop_control:
     label: "{{ item.lv }}"
   become: True
+  when: lvm_lvs
 
 #Set permissions on mount points
 - name: "Ensure mount point has desired permissions"
@@ -59,3 +63,4 @@
   loop_control:
     label: "{{ item.mount }}"
   become: True
+  when: lvm_lvs
